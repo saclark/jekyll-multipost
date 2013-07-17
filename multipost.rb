@@ -1,14 +1,12 @@
 module Jekyll
   class MultiPost < Post
 
-    # Initialize this MultiPost instance.
+    # Initialize this Post instance.
     #
     # site       - The Site.
-    # source     - The String path to the dir containing the Site.
-    # dir        - The dir containing the post file if not the root.
     # base       - The String path to the dir containing the post file.
     # name       - The String filename of the post file.
-    # layout     - The layout to use.
+    # layout     - The layout to use for the post.
     #
     # Returns the new Post.
     def initialize(site, source, dir, name, layout)
