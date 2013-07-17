@@ -1,7 +1,7 @@
 # MultiPost
-MultiPost is a [Jekyll][jekyll-site] plugin that enables the generation of multiple posts, each utilizing a different layout, from a single post entry.
+MultiPost is a [Jekyll](https://github.com/mojombo/jekyll) plugin that enables the generation of multiple posts, each utilizing a different layout, from a single post entry.
 
-This is useful for any situation where you have a single content base that you wish to display in various manners (such as: tailoring content presentation for different audiences, A/B testing, comparing different designs). You may want to modify or extend the plugin to better suit your specific needs (i.e. adjust the permalink structure - see [`lines 28-29`][permalink-src]).
+This is useful for any situation where you have a single content base that you wish to display in various manners (such as: tailoring content presentation for different audiences, A/B testing, comparing different designs). You may want to modify or extend the plugin to better suit your specific needs (i.e. adjust the permalink structure in `MultiPost`'s `initialize` method.
 
 
 ## Usage
@@ -20,7 +20,3 @@ layout:
 - layout_A
 - layout_B
 ```
-
-<!-- Links -->
-[jekyll-site]: https://github.com/mojombo/jekyll
-[permalink-src]: https://github.com/saclark/jekyll-multipost/blob/master/multipost.rb#L28-29
