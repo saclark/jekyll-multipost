@@ -1,7 +1,7 @@
 module Jekyll
   class MultiPost < Post
 
-    # Initialize this Post instance.
+    # Initialize this Multipost instance.
     #
     # site       - The Site.
     # base       - The String path to the dir containing the post file.
