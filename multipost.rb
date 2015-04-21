@@ -1,55 +1,39 @@
+require 'cgi'
+
 module Jekyll
-  class MultiPost < Post
-
-    # Initialize this MultiPost instance.
-    #
-    # site       - The Site.
-    # base       - The String path to the dir containing the post file.
-    # name       - The String filename of the post file.
-    # layout     - The layout to use for the post.
-    #
-    # Returns the new Post.
-    def initialize(site, source, dir, name, layout)
-      @site = site
-      @dir = dir
-      @base = self.containing_dir(source, dir)
-      @name = name
-
-      self.categories = dir.downcase.split('/').reject { |x| x.empty? }
-      self.process(name)
-      self.read_yaml(@base, name)
-
-      # Declare the layout for this instance
-      self.data["layout"] = layout
-
-      # Declare the unique permalink for this instance
-      title = CGI.escape(slug)
-      self.data["permalink"] = "/#{title}/#{layout}"
-
-      if self.data.has_key?('date')
-        self.date = Time.parse(self.data["date"].to_s)
-      end
-
-      self.published = self.published?
-
-      self.populate_categories
-      self.populate_tags
-    end
-  end
-
   class MultiPostGenerator < Generator
     safe true
 
     def generate(site)
-      site.posts.each do |post|
-        if post.data["layout"].is_a? Array
-          post.data["layout"].each do |layout|
-            site.posts << MultiPost.new(site, site.source, "", post.name, layout)
-          end
-        end
-      end
+      site.posts.map! do |post|
+        post.data["layout"].is_a?(Array) ? generate_post_layouts(post) : post
+      end.flatten!
+    end
 
-      site.posts.delete_if { |post| post.data["layout"].is_a? Array }
+    private
+
+    def generate_post_layouts(post)
+      post.data["layout"].map do |layout|
+        layout_post = Post.new(post.site, post.site.source, post_dir(post), post.name)
+        layout_post.data["layout"] = layout
+        layout_post.data["permalink"] = layout_permalink(post, layout)
+        layout_post
+      end
+    end
+
+    def post_dir(post)
+      post.instance_variable_get(:@dir)
+    end
+
+    def layout_permalink(post, layout)
+      layout_path = CGI.escape(layout)
+      url = post.url
+
+      if url.include?(':layout')
+        url.gsub(/:layout/, layout_path)
+      else
+        "#{url}/#{layout_path}"
+      end
     end
   end
 end
