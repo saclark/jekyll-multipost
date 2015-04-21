@@ -5,34 +5,55 @@ module Jekyll
     safe true
 
     def generate(site)
-      site.posts.map! do |post|
-        post.data["layout"].is_a?(Array) ? generate_post_layouts(post) : post
-      end.flatten!
+      generate_views(site, :posts)
+      generate_views(site, :pages)
     end
 
     private
 
-    def generate_post_layouts(post)
-      post.data["layout"].map do |layout|
-        layout_post = Post.new(post.site, post.site.source, post_dir(post), post.name)
-        layout_post.data["layout"] = layout
-        layout_post.data["permalink"] = layout_permalink(post, layout)
-        layout_post
+    def generate_views(site, resource_type)
+      klass = resource_klass(resource_type)
+
+      site.send(resource_type).map! do |resource|
+        resource.data["layout"].is_a?(Array) ? generate_layouts(resource, klass) : resource
+      end.flatten!
+    end
+
+    def resource_klass(resource_type)
+      klasses = {
+        :posts => Post,
+        :pages => Page
+      }
+
+      klasses[resource_type]
+    end
+
+    def generate_layouts(resource, klass)
+      resource.data["layout"].map do |layout|
+        view = klass.new(resource.site, resource.site.source, resource_dir(resource), resource.name)
+        view.data["layout"] = layout
+        view.data["permalink"] = view_permalink(resource, layout)
+        view
       end
     end
 
-    def post_dir(post)
-      post.instance_variable_get(:@dir)
+    def resource_dir(resource)
+      resource.instance_variable_get(:@dir)
     end
 
-    def layout_permalink(post, layout)
+    def view_permalink(resource, layout)
       layout_path = CGI.escape(layout)
-      url = post.url
+      url = resource.url
+      ext = File.extname(url)
 
       if url.include?(':layout')
-        url.gsub(/:layout/, layout_path)
+        return url.gsub(/:layout/, layout_path)
+      end
+
+      if ext.empty?
+        "#{url}/#{layout_path}/"
       else
-        "#{url}/#{layout_path}"
+        url.gsub(/\/$|#{ext}$/) { |url_end| "/#{layout_path}#{url_end}" }
       end
     end
   end
