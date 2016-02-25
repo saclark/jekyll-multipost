@@ -72,7 +72,7 @@ module Jekyll
           :site => site,
           :collection => collection
         })
-
+        new_doc.read
         new_doc.data["layout"] = layout
         new_doc.data["permalink"] = PermalinkBuilder.get_adjusted_permalink(doc, layout)
 
