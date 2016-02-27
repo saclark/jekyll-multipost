@@ -68,15 +68,15 @@ module Jekyll
 
     def create_layout_views(site, collection, doc)
       doc.data["layout"].map do |layout|
-        doc = Document.new(doc.path, {
+        new_doc = Document.new(doc.path, {
           :site => site,
           :collection => collection
         })
+        new_doc.read
+        new_doc.data["layout"] = layout
+        new_doc.data["permalink"] = PermalinkBuilder.get_adjusted_permalink(doc, layout)
 
-        doc.data["layout"] = layout
-        doc.data["permalink"] = PermalinkBuilder.get_adjusted_permalink(doc, layout)
-
-        doc
+        new_doc
       end
     end
   end
