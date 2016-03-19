@@ -38,6 +38,7 @@ module Jekyll
     end
 
     def resource_dir(resource)
+      # TODO: This. Don't ever do it. But for now...Eh, screw it...
       resource.instance_variable_get(:@dir)
     end
 
