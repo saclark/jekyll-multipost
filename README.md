@@ -11,8 +11,9 @@ Simply clone/download/copy+paste the appropriate `multipost.rb` file to a `_plug
 - Use the `mutlipost.rb` file from the `jekyll_v1-2` directory.
 
 ## Usage
-This plugin gives you the option to list more than one layout in the YAML front matter of your posts and pages (entires with a single layout -- e.g. `layout: layout_a` will still behave as usual).
+This plugin gives you the option to list more than one layout in the YAML front matter of your posts and pages (entries with a single layout (e.g. `layout: layout_a`) will still behave as usual).
 
+Example:
 ```yaml
 ---
 layout: [layout_a, layout_b]
