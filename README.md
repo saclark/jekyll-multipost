@@ -5,10 +5,10 @@ MultiPost is a [Jekyll](https://github.com/mojombo/jekyll) plugin that allows yo
 Simply clone/download/copy+paste the appropriate `multipost.rb` file to a `_plugins` directory in your jekyll site source root (see option #1 from the [jekyll documentation](http://jekyllrb.com/docs/plugins/#installing-a-plugin)).
 
 **Jekyll version >= 3**
-- Use the `mutlipost.rb` file from the `jekyll_v3` directory.
+- Use the `multipost.rb` file from the `jekyll_v3` directory.
 
 **Jekyll version < 3**
-- Use the `mutlipost.rb` file from the `jekyll_v1-2` directory.
+- Use the `multipost.rb` file from the `jekyll_v1-2` directory.
 
 ## Usage
 This plugin gives you the option to list more than one layout in the YAML front matter of your posts and pages (entries with a single layout (e.g. `layout: layout_a`) will still behave as usual).
